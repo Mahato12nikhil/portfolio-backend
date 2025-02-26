@@ -6,6 +6,7 @@ import FastifyCors from '@fastify/cors'
 import FastifyCompress from '@fastify/compress'
 import FastifyStatic from '@fastify/static'
 import FastifySwagger from '@fastify/swagger'
+import FastifySwaggerUI from '@fastify/swagger-ui'
 import { API_ROUTE_PREFIX, RELATIVE_DIST_STATIC_FOLDER, SWAGGER_CONFIG_OPTS } from "./utils/config.js";
 import { dirname, join } from "path"; 
 import { fileURLToPath } from "url";
@@ -37,11 +38,23 @@ export type AppOptions = {
         root: join(__dirname, RELATIVE_DIST_STATIC_FOLDER),
     });
     // register swagger plugin
-    fastify.register(FastifySwagger, SWAGGER_CONFIG_OPTS);
+    fastify.register(FastifySwagger,SWAGGER_CONFIG_OPTS);
      // This loads all plugins defined in plugins
     fastify.register(AutoLoad, {
         dir: join(__dirname, 'plugins'),
         options: opts,
+    });
+    // Register Fastify Swagger UI Correctly
+    fastify.register(FastifySwaggerUI, {
+        routePrefix: "/docs",
+        uiConfig: {
+            docExpansion: "full",
+            deepLinking: false,
+        },
+        staticCSP: true,
+        transformSpecification: (swaggerObject, request, reply) => {
+            return swaggerObject;
+        },
     });
     // // This loads all plugins defined in routes
     fastify.register(AutoLoad, {

@@ -20,3 +20,20 @@ export const SWAGGER_CONFIG_OPTS: SwaggerOptions = {
           },
     },
   };
+  type RouteName={
+    method:'POST' | 'GET',
+    url:string
+  } 
+
+  export const REFRESH_TOKEN_EXPIRY='30d';
+  export const TOKEN_EXPIRY='1d';
+
+
+  export const DB_PORTFOLIO=process.env.DB_PORTFOLIO;
+
+  export const  UNPROTECTED_ROUTES: RouteName[]=[
+    {method: 'POST', url: '/api/v1/user/create'},
+    {method: 'POST', url: '/api/v1/user'},
+    {method:'GET', url:'/api/v1/project'},
+    {method:'POST', url:'/api/v1/auth/login'}
+  ]

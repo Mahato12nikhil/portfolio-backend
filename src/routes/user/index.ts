@@ -3,7 +3,8 @@ import { FastifyPluginAsync } from "fastify";
 import { createUserHandler } from "./user.handler.js";
 
 const userRoute:FastifyPluginAsync=async(fastify, opts):Promise<void> =>{
-    fastify.post<CreateUserRequest>('/',CreateUserRequestOpts,createUserHandler)
+    
+    fastify.post<CreateUserRequest>('/create',CreateUserRequestOpts,createUserHandler)
     fastify.get('/',(req,res)=>{
         console.log("requested")
     })

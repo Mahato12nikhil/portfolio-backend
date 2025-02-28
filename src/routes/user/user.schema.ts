@@ -1,9 +1,9 @@
 import {RouteShorthandOptions} from 'fastify';
 
 export interface CreateUserRequest{
-    Headers:{
-        authorization:string
-    },
+    // Headers:{
+    //     authorization:string
+    // },
     Body:{
         name:string,
         email:string,

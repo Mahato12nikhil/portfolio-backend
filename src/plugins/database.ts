@@ -1,7 +1,8 @@
 import fp from 'fastify-plugin';
 import FastifyMongodb, {FastifyMongoNestedObject, FastifyMongoObject} from '@fastify/mongodb';
 // import { SequenceSchema } from '../models/sequence.js';
-// import { COLL_SEQUENCES } from '../utils/constants.js';
+ import { COLL_SEQUENCES } from '../utils/constants.js';
+import { SequenceSchema } from '../models/sequence.js';
 
 export default fp(async (fastify, opts) => {
   const dbConnUrl = process.env.DB_CONN_URL;
@@ -19,13 +20,26 @@ export default fp(async (fastify, opts) => {
     request.getSequenceNextVal = fastify.getSequenceNextVal;
     done();
   });
-});
+  fastify.decorate('getSequenceNextVal',async(sequenceId:string)=>{
+    const result = await fastify.mongo.client.db(process.env.DB_PORTFOLIO)
+    ?.collection<SequenceSchema>(COLL_SEQUENCES)
+    .findOneAndUpdate(
+      {_id: sequenceId},
+      {$inc: {val: 1}},
+      {upsert: true, returnDocument: 'after'},
+    );
+    if (result?.val) {
+      return result.val;
+    }
+    throw new Error('not able to get next sequence value');
+    })
+  });
 
 // When using .decorate you have to specify added properties for Typescript
 declare module 'fastify' {
   export interface FastifyRequest {
     mongo: FastifyMongoObject & FastifyMongoNestedObject;
-    getSequenceNextVal(sequenceId: string): Promise<number>;
+    getSequenceNextVal: (sequenceId: string) => Promise<number>;
   }
   export interface FastifyInstance {
     getSequenceNextVal(sequenceId: string): Promise<number>;

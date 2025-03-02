@@ -11,7 +11,7 @@ export interface CreateUserRequest{
         username:string,
         password?:string,
         role?:string,
-        validity?:bigint
+        validity?:number
     }
 }
 export const CreateUserRequestOpts: RouteShorthandOptions={

@@ -7,6 +7,21 @@ export interface AuthLoginRequest {
         password:string
     }
 }
+export const userTypeObject ={
+    type:'object',
+    properties: {
+        id: {type: 'number'},
+        name: {type: 'string'},
+        email: {type: 'string'},
+        phone: {type: 'string'},
+        username: {type: 'string'},
+        role: {type: 'string'},
+        validity: {type: 'number'},
+
+    }
+}
+
+
 export const AuthLoginRequestOpts: RouteShorthandOptions={
    schema:{
         body:{
@@ -22,6 +37,7 @@ export const AuthLoginRequestOpts: RouteShorthandOptions={
                 properties:{
                     success:{type:'boolean'},
                     message:{type:'string'},
+                    data:userTypeObject,
                     token:{type:'string'},
                     refreshToken:{type:'string'}
                 }

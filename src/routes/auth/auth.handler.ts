@@ -15,6 +15,7 @@ export const LoginHandler=async(req: LoginRequest,reply: FastifyReply)=>{
         const {username, password}=req?.body;
 
         const user =await userColl.findOne({username: username});
+        console.log(user)
 
         if(!user){
             return reply.status(404).send({
@@ -39,6 +40,7 @@ export const LoginHandler=async(req: LoginRequest,reply: FastifyReply)=>{
         return  reply.status(200).send({
             success:true,
             message:'logged in successful',
+            data:user,
             token:token,
             refreshToken:refreshToken
         })

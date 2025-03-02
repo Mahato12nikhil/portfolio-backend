@@ -6,5 +6,5 @@ export interface UserSchema {
     username:string,
     password?:string,
     role?:string,
-    validity?:bigint
+    validity?:number
 }

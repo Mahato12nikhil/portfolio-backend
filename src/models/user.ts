@@ -7,4 +7,4 @@ export interface UserSchema {
     password?:string,
     role?:string,
     validity?:bigint
-  }
+}

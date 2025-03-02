@@ -1,5 +1,4 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { DB_PORTFOLIO } from "../../utils/config.js";
 import { COLL_PROJECTS } from "../../utils/constants.js";
 import { ProjectSchema } from "../../models/project.js";
 import { CreateProjectRequest } from "./project.schema.js";
@@ -36,7 +35,7 @@ export const GetProjectHandler = async (request: FastifyRequest, reply: FastifyR
 type CrtPrjctRqst=FastifyRequest<CreateProjectRequest>;
 export const CreateProjectHandler = async (req: CrtPrjctRqst, reply: FastifyReply) => {
     try {
-        const collProject = req.mongo.client.db(DB_PORTFOLIO).collection(COLL_PROJECTS);
+        const collProject = req.mongo.client.db(process.env.DB_PORTFOLIO).collection(COLL_PROJECTS);
 
         if (!collProject) {
             return reply.status(500).send({

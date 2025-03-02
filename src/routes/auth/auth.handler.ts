@@ -37,7 +37,7 @@ export const LoginHandler=async(req: LoginRequest,reply: FastifyReply)=>{
         const refreshToken=req.generateRefreshToken(username);
         
         return  reply.status(200).send({
-            success:false,
+            success:true,
             message:'logged in successful',
             token:token,
             refreshToken:refreshToken
